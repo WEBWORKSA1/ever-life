@@ -26,7 +26,11 @@ ads.txt, sitemap.xml, robots.txt, .nojekyll
 ```
 
 ## Edit and rebuild
-Edit `build/*.py` or `content/guides/*.html`, then run `python3 build/build.py`.
+Edit `build/*.py` or `content/guides/*.html`, then run `python3 build/build.py` and commit the regenerated pages.
+
+## Publish (GitHub Pages, free plan)
+Repo → Settings → Pages → Source: **Deploy from a branch** → Branch `main`, folder `/ (root)` → Save.
+The site goes live at https://webworksa1.github.io/ever-life/ within about a minute.
 
 ## Settings (assets/js/main.js → CONFIG)
 - `adSlots`: paste AdSense ad-unit slot IDs (top, inArticle, sidebar, mid) once approved. Auto ads work without them.
