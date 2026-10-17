@@ -526,9 +526,12 @@ def build_legal():
 
 def build_404():
     r = ""
-    body = f'''<section class="block center"><div class="container" style="max-width:640px"><span class="eyebrow">404</span><h1 style="margin-top:14px">This page didn't make it.</h1><p class="muted">The link may be old or mistyped. Here are some good places to go instead.</p>
-<div class="hero-actions" style="justify-content:center"><a class="btn btn-primary" href="/ever-life/index.html" onclick="this.href=(location.pathname.indexOf('/ever-life/')===0?'/ever-life/':'/')">Home</a><a class="btn btn-ghost" href="/ever-life/tools/" onclick="this.href=(location.pathname.indexOf('/ever-life/')===0?'/ever-life/':'/')+'tools/'">Free tools</a></div></div></section>'''
-    write("404.html", page("404.html", "Page Not Found", "The page you were looking for could not be found.", body, noindex=True).replace('href="assets/', 'href="/ever-life/assets/').replace('src="assets/', 'src="/ever-life/assets/'))
+    body = """<section class="block center"><div class="container" style="max-width:640px"><span class="eyebrow">404</span><h1 style="margin-top:14px">This page didn't make it.</h1><p class="muted">The link may be old or mistyped. Here are some good places to go instead.</p>
+<div class="hero-actions" style="justify-content:center"><a class="btn btn-primary" href="/">Home</a><a class="btn btn-ghost" href="/tools/">Free tools</a><a class="btn btn-ghost" href="/guides/">Guides</a></div></div></section>"""
+    out = page("404.html", "Page Not Found", "The page you were looking for could not be found.", body, noindex=True)
+    # 404 is served at any depth on the custom domain, so make every local link root-absolute.
+    out = re.sub(r'(href|src)="(?!https?:|/|#|mailto:)', r'\1="/', out)
+    write("404.html", out)
 
 
 def build_meta(guides):
@@ -542,6 +545,7 @@ def build_meta(guides):
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
     write("ads.txt", "google.com, pub-6620975821265271, DIRECT, f08c47fec0942fa0\n")
     write(".nojekyll", "")
+    write("CNAME", "ever.life\n")
 
 
 if __name__ == "__main__":
